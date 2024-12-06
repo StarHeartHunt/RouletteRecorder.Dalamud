@@ -1,10 +1,11 @@
-﻿using Dalamud.Game.Command;
+using Dalamud.Game.Command;
+using Dalamud.Interface.Windowing;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using System.IO;
-using Dalamud.Interface.Windowing;
 using Dalamud.Plugin.Services;
+using Lumina.Excel.GeneratedSheets;
 using RouletteRecorder.Dalamud.Windows;
+using System.IO;
 
 namespace RouletteRecorder.Dalamud;
 
@@ -13,8 +14,11 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static IDalamudPluginInterface PluginInterface { get; private set; } = null!;
     [PluginService] internal static ITextureProvider TextureProvider { get; private set; } = null!;
     [PluginService] internal static ICommandManager CommandManager { get; private set; } = null!;
+    [PluginService] internal static IDutyState DutyState { get; private set; } = null!;
+    [PluginService] internal static IClientState ClientState { get; private set; } = null!;
+    [PluginService] internal static IPluginLog PluginLog { get; private set; } = null!;
 
-    private const string CommandName = "/pmycommand";
+    private const string CommandName = "/prr";
 
     public Configuration Configuration { get; init; }
 
@@ -37,8 +41,12 @@ public sealed class Plugin : IDalamudPlugin
 
         CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
         {
-            HelpMessage = "A useful message to display in /xlhelp"
+            HelpMessage = "Open plugin GUI"
         });
+
+        ClientState.CfPop += OnCfPop;
+        DutyState.DutyStarted += OnDutyStarted;
+        DutyState.DutyCompleted += OnDutyCompleted;
 
         PluginInterface.UiBuilder.Draw += DrawUI;
 
@@ -50,6 +58,21 @@ public sealed class Plugin : IDalamudPlugin
         PluginInterface.UiBuilder.OpenMainUi += ToggleMainUI;
     }
 
+    private void OnCfPop(ContentFinderCondition condition)
+    {
+        PluginLog.Debug("[OnCfPop] {0}", condition.Name);
+    }
+
+    private void OnDutyStarted(object? sender, ushort territoryId)
+    {
+        PluginLog.Debug("[OnDutyStarted] {0}", territoryId);
+    }
+
+    private void OnDutyCompleted(object? sender, ushort territoryId)
+    {
+        PluginLog.Debug("[OnDutyCompleted] {0}", territoryId);
+    }
+
     public void Dispose()
     {
         WindowSystem.RemoveAllWindows();
@@ -58,6 +81,9 @@ public sealed class Plugin : IDalamudPlugin
         MainWindow.Dispose();
 
         CommandManager.RemoveHandler(CommandName);
+
+        DutyState.DutyStarted -= OnDutyStarted;
+        DutyState.DutyCompleted -= OnDutyCompleted;
     }
 
     private void OnCommand(string command, string args)
