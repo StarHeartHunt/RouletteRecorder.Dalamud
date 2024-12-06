@@ -1,8 +1,8 @@
 {
     "Author": "StarHeartHunt",
     "Name": "RouletteRecorder",
-    "Punchline": "Auto record your daily roulettes like mentor roulette",
-    "Description": "Help you to record your daily roulettes, including mentor roulette export and upload.",
+    "Punchline": "Auto record your daily roulettes including mentor roulettes",
+    "Description": "Help you to record your daily roulettes, export report and sync with DungeonLogger in realtime.",
     "ApplicableVersion": "any",
     "Tags": [
         "roulette",
