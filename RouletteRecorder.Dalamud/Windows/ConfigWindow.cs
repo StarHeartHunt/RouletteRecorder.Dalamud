@@ -1,7 +1,7 @@
-﻿using System;
-using System.Numerics;
-using Dalamud.Interface.Windowing;
+﻿using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using System;
+using System.Numerics;
 
 namespace RouletteRecorder.Dalamud.Windows;
 

@@ -25,13 +25,6 @@
         <BaseOutputPath>$(SolutionDir)bin</BaseOutputPath>
     </PropertyGroup>
 
-    <ItemGroup>
-        <Content Include="..\Data\goat.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Visible>false</Visible>
-        </Content>
-    </ItemGroup>
-
     <PropertyGroup>
         <DalamudLibPath Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(appdata)\XIVLauncherCN\addon\Hooks\dev\</DalamudLibPath>
         <DalamudLibPath Condition="$([MSBuild]::IsOSPlatform('Linux'))">$(HOME)/.xlcore/dalamud/Hooks/dev/</DalamudLibPath>
