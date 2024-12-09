@@ -1,5 +1,6 @@
-﻿using Dalamud.Interface.Windowing;
+using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using RouletteRecorder.Dalamud.Utils;
 using System;
 using System.Numerics;
 
@@ -7,20 +8,19 @@ namespace RouletteRecorder.Dalamud.Windows;
 
 public class ConfigWindow : Window, IDisposable
 {
-    private Configuration Configuration;
+    private readonly Configuration configuration;
 
-    // We give this window a constant ID using ###
-    // This allows for labels being dynamic, like "{FPS Counter}fps###XYZ counter window",
-    // and the window ID will always be "###XYZ counter window" for ImGui
-    public ConfigWindow(Plugin plugin) : base("A Wonderful Configuration Window###With a constant ID")
+    public ConfigWindow(Plugin plugin) : base("Config###rouletteRecorderConfigWindow")
     {
-        Flags = ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoScrollbar |
-                ImGuiWindowFlags.NoScrollWithMouse;
+        Flags = ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse;
 
-        Size = new Vector2(232, 90);
-        SizeCondition = ImGuiCond.Always;
+        SizeConstraints = new WindowSizeConstraints
+        {
+            MinimumSize = new Vector2(375, 450),
+            MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
+        };
 
-        Configuration = plugin.Configuration;
+        configuration = plugin.Configuration;
     }
 
     public void Dispose() { }
@@ -28,7 +28,7 @@ public class ConfigWindow : Window, IDisposable
     public override void PreDraw()
     {
         // Flags must be added or removed before Draw() is being called, or they won't apply
-        if (Configuration.IsConfigWindowMovable)
+        if (configuration.IsConfigWindowMovable)
         {
             Flags &= ~ImGuiWindowFlags.NoMove;
         }
@@ -40,20 +40,28 @@ public class ConfigWindow : Window, IDisposable
 
     public override void Draw()
     {
-        // can't ref a property, so use a local copy
-        var configValue = Configuration.SomePropertyToBeSavedAndWithADefault;
-        if (ImGui.Checkbox("Random Config Bool", ref configValue))
+        var movable = configuration.IsConfigWindowMovable;
+        if (ImGui.Checkbox("Allow Drag Config Window", ref movable))
         {
-            Configuration.SomePropertyToBeSavedAndWithADefault = configValue;
-            // can save immediately on change, if you don't want to provide a "Save and Close" button
-            Configuration.Save();
+            configuration.IsConfigWindowMovable = movable;
+            configuration.Save();
         }
 
-        var movable = Configuration.IsConfigWindowMovable;
-        if (ImGui.Checkbox("Movable Config Window", ref movable))
+
+        if (ImGui.CollapsingHeader("Subscribed Roulette Types"))
         {
-            Configuration.IsConfigWindowMovable = movable;
-            Configuration.Save();
+            ImGui.Indent();
+            foreach (var roulette in Database.CfRoulettes)
+            {
+                var selected = configuration.subscribedRouletteIds.Contains(roulette.RowId);
+                if (ImGui.Checkbox(roulette.Name.ToString(), ref selected))
+                {
+                    configuration.SetSubscribedRouletteId(roulette, selected);
+                    configuration.Save();
+                }
+            }
+            ImGui.Unindent();
         }
+
     }
 }

@@ -5,7 +5,6 @@ using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.GeneratedSheets;
-using Newtonsoft.Json;
 using RouletteRecorder.Dalamud.DAO;
 using RouletteRecorder.Dalamud.Utils;
 using RouletteRecorder.Dalamud.Windows;
@@ -14,21 +13,13 @@ namespace RouletteRecorder.Dalamud;
 
 public sealed class Plugin : IDalamudPlugin
 {
-    [PluginService] internal static IDalamudPluginInterface PluginInterface { get; private set; } = null!;
-
-    [PluginService] internal static ICommandManager CommandManager { get; private set; } = null!;
-
-    [PluginService] internal static IDutyState DutyState { get; private set; } = null!;
-
+    [PluginService] internal static IChatGui ChatGui { get; private set; } = null!;
     [PluginService] internal static IClientState ClientState { get; private set; } = null!;
-
-    [PluginService] internal static IPluginLog PluginLog { get; private set; } = null!;
-
+    [PluginService] internal static ICommandManager CommandManager { get; private set; } = null!;
     [PluginService] internal static IDataManager DataManager { get; private set; } = null!;
-
-    [PluginService] internal static IAddonLifecycle AddonLifecycle { get; private set; } = null!;
-
-    [PluginService] internal static IAddonEventManager AddonEventManager { get; private set; } = null!;
+    [PluginService] internal static IDutyState DutyState { get; private set; } = null!;
+    [PluginService] internal static IDalamudPluginInterface PluginInterface { get; private set; } = null!;
+    [PluginService] internal static IPluginLog PluginLog { get; private set; } = null!;
 
     private const string CommandName = "/prr";
 
@@ -56,6 +47,7 @@ public sealed class Plugin : IDalamudPlugin
 
         ClientState.CfPop += OnCfPop;
         ClientState.TerritoryChanged += OnTerritoryChanged;
+        ClientState.Logout += OnLogout;
 
         DutyState.DutyCompleted += OnDutyCompleted;
 
@@ -75,12 +67,26 @@ public sealed class Plugin : IDalamudPlugin
 
         ClientState.CfPop -= OnCfPop;
         ClientState.TerritoryChanged -= OnTerritoryChanged;
+        ClientState.Logout -= OnLogout;
 
         DutyState.DutyCompleted -= OnDutyCompleted;
 
         PluginInterface.UiBuilder.Draw -= DrawUI;
         PluginInterface.UiBuilder.OpenConfigUi -= ToggleConfigUI;
         PluginInterface.UiBuilder.OpenMainUi -= ToggleMainUI;
+    }
+
+    private void OnLogin()
+    {
+        // TODO reconnect roulette recover ui
+    }
+
+    private void OnLogout()
+    {
+        if (Roulette.Instance != null && Roulette.Instance.RouletteType != null && !Roulette.Instance.IsCompleted)
+        {
+            Database.SavePendingRoulette();
+        }
     }
 
     private void OnTerritoryChanged(ushort territoryId)
@@ -98,7 +104,7 @@ public sealed class Plugin : IDalamudPlugin
         }
         else
         {
-            PluginLog.Debug("[OnTerritoryChanged] detected non-finished roulette, force to finish");
+            PluginLog.Debug("[OnTerritoryChanged] detected exited roulette, force to finish");
 
             if (Roulette.Instance.RouletteType != null) Roulette.Instance.Finish();
         }
@@ -124,6 +130,7 @@ public sealed class Plugin : IDalamudPlugin
 
     private void OnDutyCompleted(object? sender, ushort territoryId)
     {
+        PluginLog.Debug($"[OnDutyCompleted] {territoryId}");
         if (Roulette.Instance == null) return;
 
         Roulette.Instance.IsCompleted = true;
