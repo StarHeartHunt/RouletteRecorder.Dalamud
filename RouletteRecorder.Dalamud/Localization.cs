@@ -50,19 +50,12 @@ namespace RouletteRecorder.Dalamud
                 if (!Directory.Exists(locDirectory)) Directory.CreateDirectory(locDirectory);
 
                 var langFile = Path.Combine(locDirectory, "zh_CN.json");
-                if (File.Exists(langFile))
+                using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"RouletteRecorder.Dalamud.Resources.zh_CN.json");
+                if (stream != null)
                 {
-                    json = File.ReadAllText(langFile);
-                }
-                else
-                {
-                    using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"RouletteRecorder.Dalamud.Resources.zh_CN.json");
-                    if (stream != null)
-                    {
-                        using var streamReader = new StreamReader(stream);
-                        json = streamReader.ReadToEnd();
-                        File.WriteAllText(langFile, json);
-                    }
+                    using var streamReader = new StreamReader(stream);
+                    json = streamReader.ReadToEnd();
+                    File.WriteAllText(langFile, json);
                 }
 
                 if (!json.IsNullOrWhitespace())
@@ -73,7 +66,7 @@ namespace RouletteRecorder.Dalamud
             }
             catch (Exception e)
             {
-                Plugin.PluginLog.Error(e, "[LoadLanguage] Failed to deserialize language file");
+                Plugin.PluginLog.Error(e, "[LoadLanguage] Error occurred when loading language file");
             }
         }
 
