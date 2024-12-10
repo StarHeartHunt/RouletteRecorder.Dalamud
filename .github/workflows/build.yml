@@ -28,7 +28,8 @@ jobs:
       - name: Download Dalamud
         run: |
           curl -O https://raw.githubusercontent.com/ottercorp/dalamud-distrib/refs/heads/main/latest.7z
-          Expand-Archive -Force latest.zip "$env:AppData\XIVLauncherCN\addon\Hooks\dev\"
+          New-Item -ItemType Directory -Force -Path "$env:AppData\XIVLauncherCN\addon\Hooks\dev\"
+          7z x latest.7z -o"$env:AppData\XIVLauncherCN\addon\Hooks\dev\"
 
       - name: Build
         run: |
