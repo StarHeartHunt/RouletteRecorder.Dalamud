@@ -95,7 +95,7 @@ public sealed class Plugin : IDalamudPlugin
         PluginLog.Debug($"[OnTerritoryChanged] currentContent: {currentContent}");
 
         if (Roulette.Instance == null)
-            Roulette.Init();
+            Roulette.Init(this);
 
         // entered the duty territory
         if (Roulette.Instance!.ContentName == null)
@@ -106,7 +106,7 @@ public sealed class Plugin : IDalamudPlugin
         {
             PluginLog.Debug("[OnTerritoryChanged] detected exited roulette, force to finish");
 
-            if (Roulette.Instance.RouletteType != null) Roulette.Instance.Finish();
+            if (Roulette.Instance.RouletteType != null) Roulette.Instance.Finish(Configuration.subscribedRouletteIds);
         }
     }
 
@@ -136,7 +136,7 @@ public sealed class Plugin : IDalamudPlugin
         Roulette.Instance.IsCompleted = true;
         if (Roulette.Instance.RouletteType != null)
         {
-            Roulette.Instance.Finish();
+            Roulette.Instance.Finish(Configuration.subscribedRouletteIds);
         }
     }
 
