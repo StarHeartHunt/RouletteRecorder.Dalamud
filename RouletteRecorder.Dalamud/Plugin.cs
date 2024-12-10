@@ -95,7 +95,7 @@ public sealed class Plugin : IDalamudPlugin
         PluginLog.Debug($"[OnTerritoryChanged] currentContent: {currentContent}");
 
         if (Roulette.Instance == null)
-            Roulette.Init(this);
+            Roulette.Init();
 
         // entered the duty territory
         if (Roulette.Instance!.ContentName == null)

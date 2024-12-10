@@ -16,7 +16,7 @@ public class Roulette(string? contentName, string? rouletteType, bool isComplete
     public bool IsCompleted { get; set; } = isCompleted;
     public static Roulette? Instance { get; private set; }
 
-    public static void Init(Plugin plugin, string? contentName = null, string? rouletteType = null, bool isCompleted = false)
+    public static void Init(string? contentName = null, string? rouletteType = null, bool isCompleted = false)
     {
         Instance = new Roulette(contentName, rouletteType, isCompleted);
     }
