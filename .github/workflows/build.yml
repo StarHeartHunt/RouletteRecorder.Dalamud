@@ -39,4 +39,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: |
-            ./RouletteRecorder.Dalamud/bin/Release/*
+            ./RouletteRecorder.Dalamud/RouletteRecorder.Dalamud/bin/Release/*
