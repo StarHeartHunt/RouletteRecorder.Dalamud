@@ -34,10 +34,9 @@ jobs:
       - name: Build
         run: |
           dotnet build -c Release
-          ls RouletteRecorder.Dalamud
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4
         with:
           path: |
-            ./RouletteRecorder.Dalamud/bin/Release/*
+            ./bin/Release/*
