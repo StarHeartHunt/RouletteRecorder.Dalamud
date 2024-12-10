@@ -46,6 +46,7 @@ jobs:
             ./bin/Release/*
 
   deploy:
+    permissions: write-all
     name: Deploy
     runs-on: windows-latest
     needs: build
