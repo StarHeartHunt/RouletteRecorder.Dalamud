@@ -6,7 +6,7 @@ using System.Numerics;
 
 namespace RouletteRecorder.Dalamud.Windows;
 
-public class MainWindow : Window, IDisposable
+public sealed class MainWindow : Window, IDisposable
 {
     private readonly Plugin plugin;
 

@@ -6,7 +6,7 @@ using System.Numerics;
 
 namespace RouletteRecorder.Dalamud.Windows;
 
-public class ConfigWindow : Window, IDisposable
+public sealed class ConfigWindow : Window, IDisposable
 {
     private readonly Configuration configuration;
 
@@ -16,7 +16,7 @@ public class ConfigWindow : Window, IDisposable
 
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(375, 450),
+            MinimumSize = new Vector2(375, 425),
             MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
         };
 
