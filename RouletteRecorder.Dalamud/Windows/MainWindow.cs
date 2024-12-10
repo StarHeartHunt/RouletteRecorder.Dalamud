@@ -4,6 +4,7 @@ using RouletteRecorder.Dalamud.DAO;
 using RouletteRecorder.Dalamud.Utils;
 using System;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace RouletteRecorder.Dalamud.Windows;
 
@@ -47,7 +48,7 @@ public sealed class MainWindow : Window, IDisposable
         ImGui.SameLine();
         if (ImGui.Button(localization.Localize("Export as CSV")))
         {
-            Database.ExportAsCSV(plugin.Configuration.CSVExportPath);
+            Task.Run(() => Database.ExportAsCSV(plugin.Configuration.CSVExportPath));
         }
     }
 
