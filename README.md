@@ -1,8 +1,19 @@
 # RouletteRecorder.Dalamud
 
+Auto record your daily roulettes including mentor roulettes, [RouletteRecorder](https://github.com/StarHeartHunt/RouletteRecorder) in Dalamud
+
+## Installation
+
+Add `https://raw.githubusercontent.com/StarHeartHunt/RouletteRecorder.Dalamud/refs/heads/master/repo.json` to your plugin repositories and then search for `RouletteRecorder` in the Plugin Installer to install RouletteRecorder.
+
+Main UI can be accessed via the Plugin Installer or using the chat command `/prr`.
+
 ## Usage
 
-TBD
+1. Setup Subscribed Roulette Types
+  After using the command `/prr`, click on `Show Settings` button, expand `Subscribed Roulette Types` and select Roulette Types to subscribe
+
+2. Enjoy!
 
 ## Develop
 
