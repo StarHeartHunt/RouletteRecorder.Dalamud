@@ -7,6 +7,8 @@ on:
   pull_request:
     branches:
       - "master"
+  release:
+    types: [published]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -38,5 +40,40 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4
         with:
+          name: build
           path: |
             ./bin/Release/*
+
+  deploy:
+    name: Deploy
+    runs-on: windows-latest
+    needs: build
+    if: ${{ github.event_name == 'release' && github.event.action == 'published' && startsWith(github.ref, 'refs/tags/v') }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Get Tag Name
+        shell: bash
+        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Upload Release Assets
+        run: gh release upload --clobber ${{ env.TAG_NAME }} build/latest.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run generator
+        run: .\.github\scripts\Make-Repo.ps1
+
+      - name: Commit and Push
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git add .
+          git diff-index --quiet HEAD || git commit -m "chore: update repo"
+          git push
