@@ -64,7 +64,7 @@ jobs:
         run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
       - name: Upload Release Assets
-        run: gh release upload --clobber ${{ env.TAG_NAME }} build/latest.zip
+        run: gh release upload --clobber ${{ env.TAG_NAME }} build/RouletteRecorder.Dalamud/latest.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
