@@ -25,9 +25,6 @@ jobs:
         with:
           dotnet-version: "8.x.x"
 
-      - name: Restore dependencies
-        run: dotnet restore
-
       - name: Download Dalamud
         run: |
           curl -O https://raw.githubusercontent.com/ottercorp/dalamud-distrib/refs/heads/main/latest.7z
