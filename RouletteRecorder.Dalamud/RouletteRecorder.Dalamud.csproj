@@ -39,10 +39,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Resources\zh_CN.json" />
+        <None Remove="Resources\zh_CN.json" />
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="CsvHelper" Version="33.0.1" />
         <PackageReference Include="DalamudPackager" Version="2.1.13" />
         <Reference Include="FFXIVClientStructs">
             <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
@@ -75,8 +76,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="Resources\zh_CN.json">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </EmbeddedResource>
+        <EmbeddedResource Include="Resources\zh_CN.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </EmbeddedResource>
     </ItemGroup>
 </Project>

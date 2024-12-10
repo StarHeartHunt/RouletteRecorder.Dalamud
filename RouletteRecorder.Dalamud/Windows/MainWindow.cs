@@ -1,7 +1,7 @@
 using Dalamud.Interface.Windowing;
-using Dalamud.Utility;
 using ImGuiNET;
 using RouletteRecorder.Dalamud.DAO;
+using RouletteRecorder.Dalamud.Utils;
 using System;
 using System.Numerics;
 
@@ -47,7 +47,7 @@ public sealed class MainWindow : Window, IDisposable
         ImGui.SameLine();
         if (ImGui.Button(localization.Localize("Export as CSV")))
         {
-            Plugin.PluginLog.Debug("export as CSV");
+            Database.ExportAsCSV(plugin.Configuration.CSVExportPath);
         }
     }
 

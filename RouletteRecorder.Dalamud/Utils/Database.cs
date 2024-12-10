@@ -1,10 +1,15 @@
+using CsvHelper;
 using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
 using Newtonsoft.Json;
 using RouletteRecorder.Dalamud.DAO;
+using RouletteRecorder.Dalamud.Models;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace RouletteRecorder.Dalamud.Utils;
 
@@ -57,5 +62,18 @@ public class Database
         {
             File.WriteAllText(PendingDbPath, JsonConvert.SerializeObject(Roulette.Instance));
         }
+    }
+
+    public static void ExportAsCSV(string destPath)
+    {
+        // make excel recognize the encoding
+        using var writer = new StreamWriter(destPath, false, new UTF8Encoding(true));
+        using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        csv.Context.RegisterClassMap<RouletteCSVMap>();
+        csv.WriteRecords(Roulettes);
+
+        // open the file explorer to the export location
+        var argument = "/select, \"" + destPath + "\"";
+        Process.Start("explorer.exe", argument);
     }
 }
