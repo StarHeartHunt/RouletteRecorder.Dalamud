@@ -9,6 +9,7 @@ namespace RouletteRecorder.Dalamud.Windows;
 public sealed class ConfigWindow : Window, IDisposable
 {
     private readonly Configuration configuration;
+    private readonly Localization localization;
 
     public ConfigWindow(Plugin plugin) : base("Config###rouletteRecorderConfigWindow")
     {
@@ -21,6 +22,7 @@ public sealed class ConfigWindow : Window, IDisposable
         };
 
         configuration = plugin.Configuration;
+        localization = plugin.Localization;
     }
 
     public void Dispose() { }
@@ -41,19 +43,19 @@ public sealed class ConfigWindow : Window, IDisposable
     public override void Draw()
     {
         var movable = configuration.IsConfigWindowMovable;
-        if (ImGui.Checkbox("Allow Drag Config Window", ref movable))
+        if (ImGui.Checkbox(localization.Localize("Allow Drag Config Window"), ref movable))
         {
             configuration.IsConfigWindowMovable = movable;
             configuration.Save();
         }
 
 
-        if (ImGui.CollapsingHeader("Subscribed Roulette Types"))
+        if (ImGui.CollapsingHeader(localization.Localize("Subscribed Roulette Types")))
         {
             ImGui.Indent();
             foreach (var roulette in Database.CfRoulettes)
             {
-                var selected = configuration.subscribedRouletteIds.Contains(roulette.RowId);
+                var selected = configuration.SubscribedRouletteIds.Contains(roulette.RowId);
                 if (ImGui.Checkbox(roulette.Name.ToString(), ref selected))
                 {
                     configuration.SetSubscribedRouletteId(roulette, selected);

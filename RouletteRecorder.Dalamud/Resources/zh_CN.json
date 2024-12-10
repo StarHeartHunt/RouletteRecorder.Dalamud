@@ -1,0 +1,14 @@
+{
+    "Current Roulette Properties": "当前随机任务属性",
+    "RouletteType: {0}": "随机任务类型: {0}",
+    "Date: {0}": "日期: {0}",
+    "StartedAt: {0}": "开始时间: {0}",
+    "EndedAt: {0}": "结束时间: {0}",
+    "IsCompleted: {0}": "是否完成: {0}",
+    "ContentName: {0}": "副本名称: {0}",
+    "JobName: {0}": "职业名称: {0}",
+    "Show Settings": "显示设置",
+    "Export as CSV": "以 CSV 格式导出",
+    "Allow Drag Config Window": "允许拖动设置窗口",
+    "Subscribed Roulette Types": "订阅随机任务类型"
+}

@@ -1,4 +1,5 @@
 using Dalamud.Interface.Windowing;
+using Dalamud.Utility;
 using ImGuiNET;
 using RouletteRecorder.Dalamud.DAO;
 using System;
@@ -9,6 +10,7 @@ namespace RouletteRecorder.Dalamud.Windows;
 public sealed class MainWindow : Window, IDisposable
 {
     private readonly Plugin plugin;
+    private readonly Localization localization;
 
     public MainWindow(Plugin plugin)
         : base("RouletteRecorder###rouletteRecorderMainWindow", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
@@ -20,32 +22,37 @@ public sealed class MainWindow : Window, IDisposable
         };
 
         this.plugin = plugin;
+        localization = plugin.Localization;
     }
 
     public void Dispose() { }
 
     public override void Draw()
     {
-        ImGui.Text("Current Roulette Properties");
+        ImGui.Text(localization.Localize("Current Roulette Properties"));
         ImGui.Separator();
 
-        ImGui.BulletText($"RouletteType: {Roulette.Instance?.RouletteType?.ToString() ?? "null"}");
-        ImGui.BulletText($"Date: {Roulette.Instance?.Date.ToString() ?? "null"}");
-        ImGui.BulletText($"StartedAt: {Roulette.Instance?.StartedAt.ToString() ?? "null"}");
-        ImGui.BulletText($"EndedAt: {Roulette.Instance?.EndedAt?.ToString() ?? "null"}");
-        ImGui.BulletText($"IsCompleted: {Roulette.Instance?.IsCompleted.ToString() ?? "null"}");
-        ImGui.BulletText($"ContentName: {Roulette.Instance?.ContentName?.ToString() ?? "null"}");
-        ImGui.BulletText($"JobName: {Roulette.Instance?.JobName?.ToString() ?? "null"}");
+        ImGui.BulletText(PrintProperty("RouletteType: {0}", Roulette.Instance?.RouletteType?.ToString()));
+        ImGui.BulletText(PrintProperty("Date: {0}", Roulette.Instance?.Date.ToString()));
+        ImGui.BulletText(PrintProperty("StartedAt: {0}", Roulette.Instance?.StartedAt.ToString()));
+        ImGui.BulletText(PrintProperty("EndedAt: {0}", Roulette.Instance?.EndedAt?.ToString()));
+        ImGui.BulletText(PrintProperty("IsCompleted: {0}", Roulette.Instance?.IsCompleted.ToString()));
+        ImGui.BulletText(PrintProperty("ContentName: {0}", Roulette.Instance?.ContentName?.ToString()));
+        ImGui.BulletText(PrintProperty("JobName: {0}", Roulette.Instance?.JobName?.ToString()));
 
-
-        if (ImGui.Button("Show Settings"))
+        if (ImGui.Button(localization.Localize("Show Settings")))
         {
             plugin.ToggleConfigUI();
         }
         ImGui.SameLine();
-        if (ImGui.Button("Export as CSV"))
+        if (ImGui.Button(localization.Localize("Export as CSV")))
         {
             Plugin.PluginLog.Debug("export as CSV");
         }
+    }
+
+    public string PrintProperty(string messageTemplate, string? value)
+    {
+        return string.Format(localization.Localize(messageTemplate), value ?? "null");
     }
 }

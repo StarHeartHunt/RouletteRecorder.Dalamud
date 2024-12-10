@@ -24,6 +24,7 @@ public sealed class Plugin : IDalamudPlugin
     private const string CommandName = "/prr";
 
     public Configuration Configuration { get; init; }
+    public Localization Localization { get; init; }
 
     public readonly WindowSystem WindowSystem = new("RouletteRecorder");
     private ConfigWindow ConfigWindow { get; init; }
@@ -32,6 +33,7 @@ public sealed class Plugin : IDalamudPlugin
     public Plugin()
     {
         Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
+        Localization = new Localization(Configuration.Language);
         Database.Load();
 
         ConfigWindow = new ConfigWindow(this);
@@ -106,7 +108,7 @@ public sealed class Plugin : IDalamudPlugin
         {
             PluginLog.Debug("[OnTerritoryChanged] detected exited roulette, force to finish");
 
-            if (Roulette.Instance.RouletteType != null) Roulette.Instance.Finish(Configuration.subscribedRouletteIds);
+            if (Roulette.Instance.RouletteType != null) Roulette.Instance.Finish(Configuration.SubscribedRouletteIds);
         }
     }
 
@@ -136,7 +138,7 @@ public sealed class Plugin : IDalamudPlugin
         Roulette.Instance.IsCompleted = true;
         if (Roulette.Instance.RouletteType != null)
         {
-            Roulette.Instance.Finish(Configuration.subscribedRouletteIds);
+            Roulette.Instance.Finish(Configuration.SubscribedRouletteIds);
         }
     }
 
