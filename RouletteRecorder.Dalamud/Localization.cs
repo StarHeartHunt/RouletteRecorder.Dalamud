@@ -50,7 +50,7 @@ namespace RouletteRecorder.Dalamud
                 if (!Directory.Exists(locDirectory)) Directory.CreateDirectory(locDirectory);
 
                 var langFile = Path.Combine(locDirectory, "zh_CN.json");
-                using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"RouletteRecorder.Dalamud.Resources.zh_CN.json");
+                using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("RouletteRecorder.Dalamud.Resources.zh_CN.json");
                 if (stream != null)
                 {
                     using var streamReader = new StreamReader(stream);
@@ -68,12 +68,6 @@ namespace RouletteRecorder.Dalamud
             {
                 Plugin.PluginLog.Error(e, "[LoadLanguage] Error occurred when loading language file");
             }
-        }
-
-        internal static string[] GetLanguages()
-        {
-            string[] languages = { "en", "zh_CN" };
-            return languages;
         }
     }
 }

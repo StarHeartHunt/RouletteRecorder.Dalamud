@@ -10,7 +10,7 @@ public class Roulette(string? contentName, string? rouletteType, bool isComplete
     public string? RouletteType { get; set; } = rouletteType;
     public string Date { get; set; } = DateTime.Now.ToString("yyyy-MM-dd");
     public string StartedAt { get; set; } = DateTime.Now.ToString("T");
-    public string? EndedAt { get; set; } = null;
+    public string? EndedAt { get; set; }
     public string? ContentName { get; set; } = contentName;
     public string? JobName { get; set; }
     public bool IsCompleted { get; set; } = isCompleted;

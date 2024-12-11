@@ -151,6 +151,6 @@ public sealed class Plugin : IDalamudPlugin
     private void DrawUI() => WindowSystem.Draw();
     public void ToggleConfigUI() => ConfigWindow.Toggle();
     public void ToggleMainUI() => MainWindow.Toggle();
-    public static string? GetJobName() => ClientState.LocalPlayer?.ClassJob?.GameData?.Name.ToString();
-    public static uint? GetJobId() => ClientState.LocalPlayer?.ClassJob?.Id;
+    public static string? GetJobName() => ClientState.LocalPlayer?.ClassJob.GameData?.Name.ToString();
+    public static uint? GetJobId() => ClientState.LocalPlayer?.ClassJob.Id;
 }

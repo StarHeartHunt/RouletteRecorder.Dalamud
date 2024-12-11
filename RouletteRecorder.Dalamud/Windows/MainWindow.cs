@@ -33,13 +33,13 @@ public sealed class MainWindow : Window, IDisposable
         ImGui.Text(localization.Localize("Current Roulette Properties"));
         ImGui.Separator();
 
-        ImGui.BulletText(PrintProperty("RouletteType: {0}", Roulette.Instance?.RouletteType?.ToString()));
-        ImGui.BulletText(PrintProperty("Date: {0}", Roulette.Instance?.Date.ToString()));
-        ImGui.BulletText(PrintProperty("StartedAt: {0}", Roulette.Instance?.StartedAt.ToString()));
-        ImGui.BulletText(PrintProperty("EndedAt: {0}", Roulette.Instance?.EndedAt?.ToString()));
+        ImGui.BulletText(PrintProperty("RouletteType: {0}", Roulette.Instance?.RouletteType));
+        ImGui.BulletText(PrintProperty("Date: {0}", Roulette.Instance?.Date));
+        ImGui.BulletText(PrintProperty("StartedAt: {0}", Roulette.Instance?.StartedAt));
+        ImGui.BulletText(PrintProperty("EndedAt: {0}", Roulette.Instance?.EndedAt));
         ImGui.BulletText(PrintProperty("IsCompleted: {0}", Roulette.Instance?.IsCompleted.ToString()));
-        ImGui.BulletText(PrintProperty("ContentName: {0}", Roulette.Instance?.ContentName?.ToString()));
-        ImGui.BulletText(PrintProperty("JobName: {0}", Roulette.Instance?.JobName?.ToString()));
+        ImGui.BulletText(PrintProperty("ContentName: {0}", Roulette.Instance?.ContentName));
+        ImGui.BulletText(PrintProperty("JobName: {0}", Roulette.Instance?.JobName));
 
         if (ImGui.Button(localization.Localize("Show Settings")))
         {

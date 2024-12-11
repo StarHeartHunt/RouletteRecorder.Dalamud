@@ -3,7 +3,7 @@ using RouletteRecorder.Dalamud.DAO;
 
 namespace RouletteRecorder.Dalamud.Models
 {
-    internal class RouletteCSVMap : ClassMap<Roulette>
+    internal sealed class RouletteCSVMap : ClassMap<Roulette>
     {
         public RouletteCSVMap()
         {
