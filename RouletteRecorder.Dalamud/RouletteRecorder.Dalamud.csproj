@@ -2,7 +2,7 @@
 
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Version>0.0.1.2</Version>
+        <Version>0.1.0.0</Version>
         <Description>Yet Another FFXIV Roulette Recorder Written in Fully CSharp.</Description>
         <Copyright></Copyright>
         <PackageProjectUrl>https://github.com/StarHeartHunt/RouletteRecorder.Dalamud</PackageProjectUrl>
