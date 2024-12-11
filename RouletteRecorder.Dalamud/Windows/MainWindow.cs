@@ -11,7 +11,6 @@ namespace RouletteRecorder.Dalamud.Windows;
 public sealed class MainWindow : Window, IDisposable
 {
     private readonly Plugin plugin;
-    private readonly Localization localization;
 
     public MainWindow(Plugin plugin)
         : base("RouletteRecorder###rouletteRecorderMainWindow", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)
@@ -21,16 +20,14 @@ public sealed class MainWindow : Window, IDisposable
             MinimumSize = new Vector2(375, 330),
             MaximumSize = new Vector2(float.MaxValue, float.MaxValue)
         };
-
         this.plugin = plugin;
-        localization = plugin.Localization;
     }
 
     public void Dispose() { }
 
     public override void Draw()
     {
-        ImGui.Text(localization.Localize("Current Roulette Properties"));
+        ImGui.Text(Plugin.Localization.Localize("Current Roulette Properties"));
         ImGui.Separator();
 
         ImGui.BulletText(PrintProperty("RouletteType: {0}", Roulette.Instance?.RouletteType));
@@ -41,19 +38,19 @@ public sealed class MainWindow : Window, IDisposable
         ImGui.BulletText(PrintProperty("ContentName: {0}", Roulette.Instance?.ContentName));
         ImGui.BulletText(PrintProperty("JobName: {0}", Roulette.Instance?.JobName));
 
-        if (ImGui.Button(localization.Localize("Show Settings")))
+        if (ImGui.Button(Plugin.Localization.Localize("Show Settings")))
         {
-            plugin.ToggleConfigUI();
+            plugin.ToggleConfigUi();
         }
         ImGui.SameLine();
-        if (ImGui.Button(localization.Localize("Export as CSV")))
+        if (ImGui.Button(Plugin.Localization.Localize("Export as CSV")))
         {
-            Task.Run(() => Database.ExportAsCsv(plugin.Configuration.CsvExportPath));
+            Task.Run(() => Database.ExportAsCsv(Plugin.Configuration.CsvExportPath));
         }
     }
 
     public string PrintProperty(string messageTemplate, string? value)
     {
-        return string.Format(localization.Localize(messageTemplate), value ?? "null");
+        return string.Format(Plugin.Localization.Localize(messageTemplate), value ?? "null");
     }
 }

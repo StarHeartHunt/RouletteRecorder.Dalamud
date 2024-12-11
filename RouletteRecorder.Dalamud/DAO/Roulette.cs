@@ -1,7 +1,9 @@
+using Dalamud.Utility;
+using RouletteRecorder.Dalamud.Network.DungeonLogger;
 using RouletteRecorder.Dalamud.Utils;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RouletteRecorder.Dalamud.DAO;
 
@@ -26,20 +28,66 @@ public class Roulette(string? contentName, string? rouletteType, bool isComplete
         Instance = instance;
     }
 
-    public void Finish(HashSet<uint> subscribedRouletteIds)
+    public async void Finish()
     {
-        if (Instance == null) return;
+        try
+        {
+            if (Instance == null) return;
 
-        var currContentRoulette = Database.CfRoulettes.FirstOrDefault(x => x.Name.ToString().Equals(RouletteType));
-        var isSubscribedRouletteType = currContentRoulette != null && subscribedRouletteIds.Contains(currContentRoulette.RowId);
-        if (Instance.RouletteType == null || Instance.ContentName == null || !isSubscribedRouletteType) return;
+            var currContentRoulette = Database.CfRoulettes.FirstOrDefault(x => x.Name.ToString().Equals(RouletteType));
+            var isSubscribedRouletteType = currContentRoulette != null && Plugin.Configuration.SubscribedRouletteIds.Contains(currContentRoulette.RowId);
+            if (Instance.RouletteType == null || Instance.ContentName == null || !isSubscribedRouletteType) return;
 
-        Instance.JobName = Plugin.GetJobName() ?? "未知职业";
-        Instance.EndedAt = DateTime.Now.ToString("T");
+            Instance.JobName = Plugin.GetJobName() ?? "未知职业";
+            Instance.EndedAt = DateTime.Now.ToString("T");
 
-        Database.InsertRoulette(Instance);
-        //if (Instance.IsCompleted) await UploadDungeonLogger();
+            Database.InsertRoulette(Instance);
+            if (Instance.IsCompleted && Plugin.Configuration.DungeonLoggerConfig.Enabled) await UploadDungeonLogger();
 
-        Instance = null;
+            Instance = null;
+        }
+        catch (Exception e)
+        {
+            Plugin.PluginLog.Error(e, "Failed to finish roulette");
+        }
+    }
+
+    public static async Task UploadDungeonLogger()
+    {
+        try
+        {
+            if (Instance == null)
+            {
+                Plugin.PluginLog.Debug("null Roulette Instance when uploading to DungeonLogger");
+                return;
+            }
+
+            var username = Plugin.Configuration.DungeonLoggerConfig.Username;
+            var password = Plugin.Configuration.DungeonLoggerConfig.Password;
+            if (username.IsNullOrEmpty() || password.IsNullOrEmpty())
+            {
+                Plugin.PluginLog.Warning("DungeonLogger enabled but username or password is empty");
+                return;
+            }
+
+            using var client = new DungeonLoggerClient();
+            await client.PostLogin(password, username);
+
+            var maze = await client.GetStatMaze();
+            if (maze?.Data == null) throw new Exception("maze data from DungeonLogger is null");
+
+            var job = await client.GetStatProf();
+            if (job?.Data == null) throw new Exception("job data from DungeonLogger is null");
+
+            var mazeId = maze.Data.Find(ele => ele.Name.Equals(Instance.ContentName))?.Id ??
+                         throw new Exception("cannot convert to DungeonLogger mazeId");
+            var profKey = job.Data.Find(ele => ele.NameCn.Equals(Instance.JobName))?.Key ??
+                          throw new Exception("cannot convert to DungeonLogger profKey");
+            await client.PostRecord(mazeId, profKey);
+        }
+        catch (Exception e)
+        {
+            Plugin.PluginLog.Error(e, "Failed to upload roulette result to DungeonLogger");
+        }
     }
 }

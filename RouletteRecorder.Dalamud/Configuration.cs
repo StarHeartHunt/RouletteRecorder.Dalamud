@@ -1,11 +1,25 @@
 using Dalamud.Configuration;
 using Dalamud.Game;
 using Lumina.Excel.GeneratedSheets;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace RouletteRecorder.Dalamud;
+
+[Serializable]
+public class DungeonLoggerConfig
+{
+    public bool Enabled = false;
+
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public string Username = string.Empty;
+
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public string Password = string.Empty;
+}
+
 
 [Serializable]
 public class Configuration : IPluginConfiguration
@@ -23,11 +37,14 @@ public class Configuration : IPluginConfiguration
     };
     public HashSet<uint> SubscribedRouletteIds { get; set; } = [];
     public string CsvExportPath { get; set; } = Path.Combine(Plugin.PluginInterface.ConfigDirectory.FullName, "data.csv");
-    public bool IsConfigWindowMovable { get; set; } = true;
+    public DungeonLoggerConfig DungeonLoggerConfig { get; set; } = new();
 
     public bool SetSubscribedRouletteId(ContentRoulette roulette, bool selected)
     {
-        return selected ? SubscribedRouletteIds.Add(roulette.RowId) : SubscribedRouletteIds.Remove(roulette.RowId);
+        var ret = selected ? SubscribedRouletteIds.Add(roulette.RowId) : SubscribedRouletteIds.Remove(roulette.RowId);
+        Save();
+
+        return ret;
     }
 
     public void Save()

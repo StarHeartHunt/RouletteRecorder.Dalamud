@@ -23,8 +23,8 @@ public sealed class Plugin : IDalamudPlugin
 
     private const string CommandName = "/prr";
 
-    public Configuration Configuration { get; init; }
-    public Localization Localization { get; init; }
+    public static Configuration Configuration { get; private set; } = null!;
+    public static Localization Localization { get; private set; } = null!;
 
     public readonly WindowSystem WindowSystem = new("RouletteRecorder");
     private ConfigWindow ConfigWindow { get; init; }
@@ -53,9 +53,9 @@ public sealed class Plugin : IDalamudPlugin
 
         DutyState.DutyCompleted += OnDutyCompleted;
 
-        PluginInterface.UiBuilder.Draw += DrawUI;
-        PluginInterface.UiBuilder.OpenConfigUi += ToggleConfigUI;
-        PluginInterface.UiBuilder.OpenMainUi += ToggleMainUI;
+        PluginInterface.UiBuilder.Draw += DrawUi;
+        PluginInterface.UiBuilder.OpenConfigUi += ToggleConfigUi;
+        PluginInterface.UiBuilder.OpenMainUi += ToggleMainUi;
     }
 
     public void Dispose()
@@ -73,9 +73,9 @@ public sealed class Plugin : IDalamudPlugin
 
         DutyState.DutyCompleted -= OnDutyCompleted;
 
-        PluginInterface.UiBuilder.Draw -= DrawUI;
-        PluginInterface.UiBuilder.OpenConfigUi -= ToggleConfigUI;
-        PluginInterface.UiBuilder.OpenMainUi -= ToggleMainUI;
+        PluginInterface.UiBuilder.Draw -= DrawUi;
+        PluginInterface.UiBuilder.OpenConfigUi -= ToggleConfigUi;
+        PluginInterface.UiBuilder.OpenMainUi -= ToggleMainUi;
     }
 
     private void OnLogin()
@@ -83,7 +83,7 @@ public sealed class Plugin : IDalamudPlugin
         // TODO reconnect roulette recover ui
     }
 
-    private void OnLogout()
+    private static void OnLogout()
     {
         if (Roulette.Instance != null && Roulette.Instance.RouletteType != null && !Roulette.Instance.IsCompleted)
         {
@@ -91,7 +91,7 @@ public sealed class Plugin : IDalamudPlugin
         }
     }
 
-    private void OnTerritoryChanged(ushort territoryId)
+    private static void OnTerritoryChanged(ushort territoryId)
     {
         var currentContent = DataManager.GetExcelSheet<TerritoryType>()?.GetRow(territoryId)?.ContentFinderCondition?.Value;
         PluginLog.Debug($"[OnTerritoryChanged] currentContent: {currentContent}");
@@ -108,11 +108,11 @@ public sealed class Plugin : IDalamudPlugin
         {
             PluginLog.Debug("[OnTerritoryChanged] detected exited roulette, force to finish");
 
-            if (Roulette.Instance.RouletteType != null) Roulette.Instance.Finish(Configuration.SubscribedRouletteIds);
+            if (Roulette.Instance.RouletteType != null) Roulette.Instance.Finish();
         }
     }
 
-    private unsafe void OnCfPop(ContentFinderCondition condition)
+    private static unsafe void OnCfPop(ContentFinderCondition condition)
     {
         string? rouletteType = null;
 
@@ -130,7 +130,7 @@ public sealed class Plugin : IDalamudPlugin
         );
     }
 
-    private void OnDutyCompleted(object? sender, ushort territoryId)
+    private static void OnDutyCompleted(object? sender, ushort territoryId)
     {
         PluginLog.Debug($"[OnDutyCompleted] {territoryId}");
         if (Roulette.Instance == null) return;
@@ -138,19 +138,19 @@ public sealed class Plugin : IDalamudPlugin
         Roulette.Instance.IsCompleted = true;
         if (Roulette.Instance.RouletteType != null)
         {
-            Roulette.Instance.Finish(Configuration.SubscribedRouletteIds);
+            Roulette.Instance.Finish();
         }
     }
 
     private void OnCommand(string command, string args)
     {
         // in response to the slash command, just toggle the display status of our main ui
-        ToggleMainUI();
+        ToggleMainUi();
     }
 
-    private void DrawUI() => WindowSystem.Draw();
-    public void ToggleConfigUI() => ConfigWindow.Toggle();
-    public void ToggleMainUI() => MainWindow.Toggle();
+    private void DrawUi() => WindowSystem.Draw();
+    public void ToggleConfigUi() => ConfigWindow.Toggle();
+    public void ToggleMainUi() => MainWindow.Toggle();
     public static string? GetJobName() => ClientState.LocalPlayer?.ClassJob.GameData?.Name.ToString();
     public static uint? GetJobId() => ClientState.LocalPlayer?.ClassJob.Id;
 }

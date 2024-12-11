@@ -10,5 +10,7 @@
     "Show Settings": "显示设置",
     "Export as CSV": "以 CSV 格式导出",
     "Allow Drag Config Window": "允许拖动设置窗口",
-    "Subscribed Roulette Types": "订阅随机任务类型"
+    "Subscribed Roulette Types": "订阅随机任务类型",
+    "DungeonLogger Account Config": "DungeonLogger 账号配置",
+    "Enable DungeonLogger Report": "启用 DungeonLogger 上报"
 }
