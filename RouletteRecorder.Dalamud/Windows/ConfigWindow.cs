@@ -3,7 +3,6 @@ using Dalamud.Interface.Windowing;
 using Dalamud.Utility;
 using ImGuiNET;
 using RouletteRecorder.Dalamud.Network.DungeonLogger;
-using RouletteRecorder.Dalamud.Network.DungeonLogger.Structures;
 using RouletteRecorder.Dalamud.Utils;
 using System;
 using System.Numerics;
