@@ -51,9 +51,7 @@ public class Database
         if (!File.Exists(PendingDbPath)) return null;
 
         var content = File.ReadAllText(DbPath);
-        if (content.IsNullOrEmpty()) return null;
-
-        return JsonConvert.DeserializeObject<Roulette>(content);
+        return content.IsNullOrEmpty() ? null : JsonConvert.DeserializeObject<Roulette>(content);
     }
 
     public static void SavePendingRoulette()
@@ -64,12 +62,12 @@ public class Database
         }
     }
 
-    public static void ExportAsCSV(string destPath)
+    public static void ExportAsCsv(string destPath)
     {
         // make excel recognize the encoding
         using var writer = new StreamWriter(destPath, false, new UTF8Encoding(true));
         using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-        csv.Context.RegisterClassMap<RouletteCSVMap>();
+        csv.Context.RegisterClassMap<RouletteCsvMap>();
         csv.WriteRecords(Roulettes);
 
         // open the file explorer to the export location

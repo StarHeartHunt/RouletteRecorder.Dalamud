@@ -22,7 +22,7 @@ public class Configuration : IPluginConfiguration
         _ => "zh_CN",
     };
     public HashSet<uint> SubscribedRouletteIds { get; set; } = [];
-    public string CSVExportPath { get; set; } = Path.Combine(Plugin.PluginInterface.ConfigDirectory.FullName, "data.csv");
+    public string CsvExportPath { get; set; } = Path.Combine(Plugin.PluginInterface.ConfigDirectory.FullName, "data.csv");
     public bool IsConfigWindowMovable { get; set; } = true;
 
     public bool SetSubscribedRouletteId(ContentRoulette roulette, bool selected)

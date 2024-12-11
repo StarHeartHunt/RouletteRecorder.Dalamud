@@ -3,9 +3,9 @@ using RouletteRecorder.Dalamud.DAO;
 
 namespace RouletteRecorder.Dalamud.Models
 {
-    internal sealed class RouletteCSVMap : ClassMap<Roulette>
+    internal sealed class RouletteCsvMap : ClassMap<Roulette>
     {
-        public RouletteCSVMap()
+        public RouletteCsvMap()
         {
             Map(m => m.RouletteType).Name("任务类型");
             Map(m => m.Date).Name("日期");

@@ -48,7 +48,7 @@ public sealed class MainWindow : Window, IDisposable
         ImGui.SameLine();
         if (ImGui.Button(localization.Localize("Export as CSV")))
         {
-            Task.Run(() => Database.ExportAsCSV(plugin.Configuration.CSVExportPath));
+            Task.Run(() => Database.ExportAsCsv(plugin.Configuration.CsvExportPath));
         }
     }
 
