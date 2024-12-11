@@ -12,5 +12,9 @@
     "Allow Drag Config Window": "允许拖动设置窗口",
     "Subscribed Roulette Types": "订阅随机任务类型",
     "DungeonLogger Account Config": "DungeonLogger 账号配置",
-    "Enable DungeonLogger Report": "启用 DungeonLogger 上报"
+    "Enable DungeonLogger Report": "启用 DungeonLogger 上报",
+    "User Name": "用户名",
+    "Password": "密码",
+    "Test Login": "测试登录",
+    "Sending request to Dungeon Logger Server": "正在向 Dungeon Logger 服务器发送请求"
 }
