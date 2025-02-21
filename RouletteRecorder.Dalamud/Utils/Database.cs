@@ -17,7 +17,7 @@ public class Database
 {
     public static readonly string DbPath = Path.Combine(Plugin.PluginInterface.ConfigDirectory.FullName, "data.json");
     public static readonly string PendingDbPath = Path.Combine(Plugin.PluginInterface.ConfigDirectory.FullName, "data_pending.json");
-    public static readonly ContentRoulette[] CfRoulettes = Plugin.DataManager.GetExcelSheet<ContentRoulette>().Where(roulette => roulette is { IsInDutyFinder: true, IsGoldSaucer: false }).ToArray() ?? [];
+    public static readonly ContentRoulette[] CfRoulettes = Plugin.DataManager.GetExcelSheet<ContentRoulette>().Where(roulette => roulette is { IsInDutyFinder: true, IsGoldSaucer: false }).ToArray();
     public static bool IsPendingDbExists() => File.Exists(PendingDbPath);
 
     public static List<Roulette> Roulettes { get; private set; } = [];
