@@ -1,6 +1,6 @@
 using Dalamud.Configuration;
 using Dalamud.Game;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

@@ -4,7 +4,9 @@ using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using Lumina.Excel;
+using Lumina.Excel.Sheets;
 using RouletteRecorder.Dalamud.DAO;
 using RouletteRecorder.Dalamud.Utils;
 using RouletteRecorder.Dalamud.Windows;
@@ -83,7 +85,7 @@ public sealed class Plugin : IDalamudPlugin
         // TODO reconnect roulette recover ui
     }
 
-    private static void OnLogout()
+    private static void OnLogout(int type, int code)
     {
         if (Roulette.Instance != null && Roulette.Instance.RouletteType != null && !Roulette.Instance.IsCompleted)
         {
@@ -93,7 +95,7 @@ public sealed class Plugin : IDalamudPlugin
 
     private static void OnTerritoryChanged(ushort territoryId)
     {
-        var currentContent = DataManager.GetExcelSheet<TerritoryType>()?.GetRow(territoryId)?.ContentFinderCondition?.Value;
+        var currentContent = DataManager.GetExcelSheet<TerritoryType>().GetRow(territoryId).ContentFinderCondition.ValueNullable;
         PluginLog.Debug($"[OnTerritoryChanged] currentContent: {currentContent}");
 
         if (Roulette.Instance == null)
@@ -117,16 +119,19 @@ public sealed class Plugin : IDalamudPlugin
         string? rouletteType = null;
 
         var queueInfo = ContentsFinder.Instance()->QueueInfo;
-        if (queueInfo.PoppedContentType == ContentsFinderQueueInfo.PoppedContentTypes.Roulette)
+        var poppedContentType = queueInfo.PoppedQueueEntry.ContentType;
+        var poppedContentId = queueInfo.PoppedQueueEntry.ConditionId;
+
+        if (poppedContentType == ContentsId.ContentsType.Roulette)
         {
-            var currentRoulette = DataManager.GetExcelSheet<ContentRoulette>()?.GetRow(queueInfo.PoppedContentId);
-            rouletteType = currentRoulette?.Name.ToString();
+            var currentRoulette = DataManager.GetExcelSheet<ContentRoulette>().GetRow(poppedContentId);
+            rouletteType = currentRoulette.Name.ToString();
         }
 
         Roulette.Init(null, rouletteType);
 
         PluginLog.Debug(
-            $"[OnCfPop] PoppedContentType: {queueInfo.PoppedContentType}, PoppedContentId: {queueInfo.PoppedContentId}, rouletteName: {rouletteType}"
+            $"[OnCfPop] PoppedContentType: {poppedContentType}, PoppedContentId: {poppedContentId}, rouletteName: {rouletteType}"
         );
     }
 
@@ -151,6 +156,7 @@ public sealed class Plugin : IDalamudPlugin
     private void DrawUi() => WindowSystem.Draw();
     public void ToggleConfigUi() => ConfigWindow.Toggle();
     public void ToggleMainUi() => MainWindow.Toggle();
-    public static string? GetJobName() => ClientState.LocalPlayer?.ClassJob.GameData?.Name.ToString();
-    public static uint? GetJobId() => ClientState.LocalPlayer?.ClassJob.Id;
+
+    public static string? GetJobName() => ClientState.LocalPlayer?.ClassJob.ValueNullable?.Name.ToString();
+    public static uint? GetJobId() => ClientState.LocalPlayer?.ClassJob.ValueNullable?.RowId;
 }
