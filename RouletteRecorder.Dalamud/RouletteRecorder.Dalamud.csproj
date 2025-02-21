@@ -2,9 +2,8 @@
 
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Version>0.1.0.0</Version>
+        <Version>0.2.0.0</Version>
         <Description>Yet Another FFXIV Roulette Recorder Written in Fully CSharp.</Description>
-        <Copyright></Copyright>
         <PackageProjectUrl>https://github.com/StarHeartHunt/RouletteRecorder.Dalamud</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <IsPackable>false</IsPackable>
@@ -44,7 +43,7 @@
 
     <ItemGroup>
         <PackageReference Include="CsvHelper" Version="33.0.1" />
-        <PackageReference Include="DalamudPackager" Version="2.1.13" />
+        <PackageReference Include="DalamudPackager" Version="11.0.0" />
         <Reference Include="FFXIVClientStructs">
             <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
             <Private>false</Private>
