@@ -37,6 +37,8 @@ jobs:
       - name: Build
         run: |
           dotnet build -c Release
+          mkdir -p ./bin/Release/build/
+          mv ./bin/Release/* ./bin/Release/build/
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4
