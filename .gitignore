@@ -1,5 +1,5 @@
 # ----- Project -----
-build/
+Release/
 
 # Created by https://www.toptal.com/developers/gitignore/api/csharp,visualstudio,jetbrains,macos,linux,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=csharp,visualstudio,jetbrains,macos,linux,windows
