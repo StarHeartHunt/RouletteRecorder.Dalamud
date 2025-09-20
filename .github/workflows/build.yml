@@ -37,15 +37,13 @@ jobs:
       - name: Build
         run: |
           dotnet build -c Release
-          mkdir -p ./bin/Release/build/
-          mv ./bin/Release/* ./bin/Release/build/
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: build
           path: |
-            ./bin/Release/*
+            ./bin/*
 
   deploy:
     permissions: write-all
@@ -67,7 +65,7 @@ jobs:
         run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
       - name: Upload Release Assets
-        run: gh release upload --clobber ${{ env.TAG_NAME }} build/RouletteRecorder.Dalamud/latest.zip
+        run: gh release upload --clobber ${{ env.TAG_NAME }} Release/RouletteRecorder.Dalamud/latest.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
