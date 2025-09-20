@@ -5,7 +5,6 @@ using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using Lumina.Excel;
 using Lumina.Excel.Sheets;
 using RouletteRecorder.Dalamud.DAO;
 using RouletteRecorder.Dalamud.Utils;
@@ -124,7 +123,7 @@ public sealed class Plugin : IDalamudPlugin
 
         if (poppedContentType == ContentsId.ContentsType.Roulette)
         {
-            var currentRoulette = DataManager.GetExcelSheet<ContentRoulette>().GetRow(poppedContentId);
+            var currentRoulette = DataManager.GetExcelSheet<Lumina.Excel.Sheets.ContentRoulette>().GetRow(poppedContentId);
             rouletteType = currentRoulette.Name.ToString();
         }
 

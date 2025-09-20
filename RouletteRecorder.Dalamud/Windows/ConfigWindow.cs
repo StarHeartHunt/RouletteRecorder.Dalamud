@@ -1,7 +1,7 @@
+using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Windowing;
 using Dalamud.Utility;
-using ImGuiNET;
 using RouletteRecorder.Dalamud.Network.DungeonLogger;
 using RouletteRecorder.Dalamud.Utils;
 using System;
@@ -56,7 +56,8 @@ public sealed class ConfigWindow : Window, IDisposable
             if (ImGui.Checkbox(Plugin.Localization.Localize("Enable DungeonLogger Report"), ref Plugin.Configuration.DungeonLoggerConfig.Enabled))
             {
                 Plugin.Configuration.Save();
-            };
+            }
+            ;
 
             if (Plugin.Configuration.DungeonLoggerConfig.Enabled)
             {
@@ -72,7 +73,8 @@ public sealed class ConfigWindow : Window, IDisposable
                 if (ImGui.InputText("##password", ref Plugin.Configuration.DungeonLoggerConfig.Password, 100, ImGuiInputTextFlags.Password))
                 {
                     Plugin.Configuration.Save();
-                };
+                }
+                ;
             }
 
             if (ImGui.Button(Plugin.Localization.Localize("Test Login")))
