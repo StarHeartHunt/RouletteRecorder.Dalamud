@@ -39,7 +39,7 @@ jobs:
           dotnet build -c Release
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: build
           path: |
@@ -58,7 +58,7 @@ jobs:
           ref: master
 
       - name: Download artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
 
       - name: Get Tag Name
         shell: bash
