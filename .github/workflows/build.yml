@@ -18,6 +18,8 @@ jobs:
   build:
     name: Build
     runs-on: windows-latest
+    env:
+        DALAMUD_HOME: /tmp/dalamud
     steps:
       - uses: actions/checkout@v6
         with:
@@ -26,13 +28,15 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: "8.x.x"
+          dotnet-version: 10.0.x
 
-      - name: Download Dalamud
+      - name: Download Dalamud Latest
         run: |
-          curl -O https://raw.githubusercontent.com/ottercorp/dalamud-distrib/refs/heads/main/latest.7z
-          New-Item -ItemType Directory -Force -Path "$env:AppData\XIVLauncherCN\addon\Hooks\dev\"
-          7z x latest.7z -o"$env:AppData\XIVLauncherCN\addon\Hooks\dev\"
+          wget https://goatcorp.github.io/dalamud-distrib/latest.zip -O ${{ env.DALAMUD_HOME }}.zip
+          unzip ${{ env.DALAMUD_HOME }}.zip -d ${{ env.DALAMUD_HOME }}
+
+      - name: Restore Project
+        run: dotnet restore
 
       - name: Build
         run: |
