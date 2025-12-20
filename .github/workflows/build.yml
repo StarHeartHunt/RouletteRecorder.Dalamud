@@ -32,7 +32,7 @@ jobs:
         run: |
           curl -O https://goatcorp.github.io/dalamud-distrib/latest.zip
           New-Item -ItemType Directory -Force -Path "$env:AppData\XIVLauncher\addon\Hooks\dev\"
-          7z x latest.7z -o"$env:AppData\XIVLauncher\addon\Hooks\dev\"
+          7z x latest.zip -o"$env:AppData\XIVLauncher\addon\Hooks\dev\"
 
       - name: Restore Project
         run: dotnet restore
