@@ -3,15 +3,15 @@
     "Author": "StarHeartHunt",
     "Name": "RouletteRecorder",
     "InternalName": "RouletteRecorder.Dalamud",
-    "AssemblyVersion": "0.4.0.1",
-    "Description": "Help you to record your daily roulettes, export report and sync with DungeonLogger in realtime.",
+    "AssemblyVersion": "0.5.0.1",
+    "Description": "Yet Another FFXIV Roulette Recorder Written in Fully CSharp.",
     "ApplicableVersion": "any",
     "Tags": [
       "roulette",
       "plugin",
       "mentor"
     ],
-    "DalamudApiLevel": 13,
+    "DalamudApiLevel": 14,
     "LoadRequiredState": 0,
     "LoadSync": false,
     "CanUnloadAsync": false,
@@ -21,9 +21,9 @@
     "IsHide": "False",
     "IsTestingExclusive": "False",
     "DownloadCount": 0,
-    "LastUpdate": "1758346887",
-    "DownloadLinkInstall": "https://github.com/StarHeartHunt/RouletteRecorder.Dalamud/releases/download/v0.4.0.1/latest.zip",
-    "DownloadLinkTesting": "https://github.com/StarHeartHunt/RouletteRecorder.Dalamud/releases/download/v0.4.0.1/latest.zip",
-    "DownloadLinkUpdate": "https://github.com/StarHeartHunt/RouletteRecorder.Dalamud/releases/download/v0.4.0.1/latest.zip"
+    "LastUpdate": "1766202965",
+    "DownloadLinkInstall": "https://github.com/StarHeartHunt/RouletteRecorder.Dalamud/releases/download/v0.5.0.1/latest.zip",
+    "DownloadLinkTesting": "https://github.com/StarHeartHunt/RouletteRecorder.Dalamud/releases/download/v0.5.0.1/latest.zip",
+    "DownloadLinkUpdate": "https://github.com/StarHeartHunt/RouletteRecorder.Dalamud/releases/download/v0.5.0.1/latest.zip"
   }
 ]
