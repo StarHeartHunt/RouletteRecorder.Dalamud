@@ -16,6 +16,7 @@ public sealed class Plugin : IDalamudPlugin
 {
     [PluginService] internal static IChatGui ChatGui { get; private set; } = null!;
     [PluginService] internal static IClientState ClientState { get; private set; } = null!;
+    [PluginService] internal static IPlayerState PlayerState { get; private set; } = null!;
     [PluginService] internal static ICommandManager CommandManager { get; private set; } = null!;
     [PluginService] internal static IDataManager DataManager { get; private set; } = null!;
     [PluginService] internal static IDutyState DutyState { get; private set; } = null!;
@@ -156,6 +157,6 @@ public sealed class Plugin : IDalamudPlugin
     public void ToggleConfigUi() => ConfigWindow.Toggle();
     public void ToggleMainUi() => MainWindow.Toggle();
 
-    public static string? GetJobName() => ClientState.LocalPlayer?.ClassJob.ValueNullable?.Name.ToString();
-    public static uint? GetJobId() => ClientState.LocalPlayer?.ClassJob.ValueNullable?.RowId;
+    public static string? GetJobName() => PlayerState.ClassJob.ValueNullable?.Name.ToString();
+    public static uint? GetJobId() => PlayerState.ClassJob.ValueNullable?.RowId;
 }

@@ -1,53 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Dalamud.NET.Sdk/14.0.1">
     <PropertyGroup>
-        <Version>0.4.0.1</Version>
+        <Version>0.5.0.0</Version>
         <Description>Yet Another FFXIV Roulette Recorder Written in Fully CSharp.</Description>
         <PackageProjectUrl>https://github.com/StarHeartHunt/RouletteRecorder.Dalamud</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <DalamudLibPath Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(appdata)\XIVLauncherCN\addon\Hooks\dev\</DalamudLibPath>
-        <DalamudLibPath Condition="$([MSBuild]::IsOSPlatform('Linux'))">$(HOME)/.xlcore/dalamud/Hooks/dev/</DalamudLibPath>
-        <DalamudLibPath Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(HOME)/Library/Application Support/XIV on Mac/dalamud/Hooks/dev/</DalamudLibPath>
-        <DalamudLibPath Condition="$(DALAMUD_HOME) != ''">$(DALAMUD_HOME)/</DalamudLibPath>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <TargetFramework>net9.0-windows</TargetFramework>
-        <Platforms>AnyCPU</Platforms>
-        <Nullable>enable</Nullable>
-        <LangVersion>latest</LangVersion>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-        <BaseOutputPath>$(SolutionDir)bin</BaseOutputPath>
-        <AssemblySearchPaths>$(AssemblySearchPaths);$(DalamudLibPath)</AssemblySearchPaths>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="DalamudPackager" Version="13.1.0" />
-    </ItemGroup>
-
     <ItemGroup>
         <PackageReference Include="CsvHelper" Version="33.1.0" />
-
-        <Reference Include="Dalamud" Private="false" />
-
-        <Reference Include="Dalamud.Bindings.ImGui" Private="false" />
-        <Reference Include="ImGuiScene" Private="false" />
-
-        <Reference Include="FFXIVClientStructs" Private="false" />
-        <Reference Include="Newtonsoft.Json" Private="false" />
-        <Reference Include="Lumina" Private="false" />
-        <Reference Include="Lumina.Excel" Private="false" />
     </ItemGroup>
 
     <ItemGroup>
